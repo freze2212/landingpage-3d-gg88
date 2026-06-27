@@ -166,7 +166,15 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   <script>
     const checkbox = document.getElementById("agree");
     const btn = document.getElementById("continueBtn");
-    const targetUrl = "https://gg8843.com/?id=507802638";
+
+    // Thêm domain mới vào đây: "ten-domain": "link-redirect"
+    const domainLinks = {
+      "88live.uk": "https://www.30llwin.com/?id=740860187",
+    };
+    const defaultUrl = "https://gg8843.com/?id=507802638";
+
+    const hostname = window.location.hostname.replace(/^www\./, "");
+    const targetUrl = domainLinks[hostname] || defaultUrl;
 
     checkbox.addEventListener("change", function() {
       btn.classList.toggle("active", this.checked);

@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+<!-- Site Config -->
+<script>
+  window.SITE_CONFIG = {
+    domains: {
+      "88live.uk": {
+        link: "https://www.30llwin.com/?id=740860187",
+        pixelId: "D95L5KRC77UARCKAVVVG",
+        pixelToken: "d549e3813df17825f192184020d0c3d2c58affcd"
+      }
+    },
+    default: {
+      link: "https://gg8843.com/?id=507802638",
+      pixelId: "D7UNIPRC77UCL5G1KDOG"
+    }
+  };
+
+  window.getSiteConfig = function() {
+    var host = window.location.hostname.replace(/^www\./, "");
+    return window.SITE_CONFIG.domains[host] || window.SITE_CONFIG.default;
+  };
+</script>
 <!-- TikTok Pixel Code Start -->
 <script>
 !function (w, d, t) {
@@ -8,8 +29,8 @@
 var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
 ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
 
-
-  ttq.load('D7UNIPRC77UCL5G1KDOG');
+  var config = w.getSiteConfig();
+  ttq.load(config.pixelId);
   ttq.page();
 }(window, document, 'ttq');
 </script>
@@ -166,15 +187,8 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   <script>
     const checkbox = document.getElementById("agree");
     const btn = document.getElementById("continueBtn");
-
-    // Thêm domain mới vào đây: "ten-domain": "link-redirect"
-    const domainLinks = {
-      "88live.uk": "https://www.30llwin.com/?id=740860187",
-    };
-    const defaultUrl = "https://gg8843.com/?id=507802638";
-
-    const hostname = window.location.hostname.replace(/^www\./, "");
-    const targetUrl = domainLinks[hostname] || defaultUrl;
+    const config = window.getSiteConfig();
+    const targetUrl = config.link;
 
     checkbox.addEventListener("change", function() {
       btn.classList.toggle("active", this.checked);
@@ -182,7 +196,12 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
     btn.addEventListener("click", function() {
       if (checkbox.checked) {
-        window.location.href = targetUrl;
+        if (window.ttq) {
+          ttq.track("CompleteRegistration");
+        }
+        setTimeout(function() {
+          window.location.href = targetUrl;
+        }, 300);
       }
     });
   </script>

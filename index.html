@@ -37,6 +37,25 @@
     }(window, document, 'ttq');
   </script>
   <!-- TikTok Pixel Code End -->
+  <!-- Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1428486155837166');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1428486155837166&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WELCOME TO CỔNG CHÍNH THỨC 2026</title>
@@ -187,29 +206,46 @@
 
     <button class="btn" id="continueBtn">TIẾP TỤC</button>
 
-    <div class="note">Nút sẽ hoạt động sau khi bạn tích xác nhận</div>
+    <div class="note">Tự chuyển hướng sau <span id="countdown">5</span> giây — không cần nhấn</div>
   </div>
 
   <script>
     const checkbox = document.getElementById("agree");
     const btn = document.getElementById("continueBtn");
-    const config = window.getSiteConfig();
-    const targetUrl = config.link;
+    const countdownEl = document.getElementById("countdown");
+
+    function getTargetUrl() {
+      const cfg = window.getSiteConfig ? window.getSiteConfig() : null;
+      return (window.REDIRECT_URL && window.REDIRECT_URL !== "")
+        ? window.REDIRECT_URL
+        : (cfg && cfg.link) || "";
+    }
+
+    function goToHd() {
+      const targetUrl = getTargetUrl();
+      if (!targetUrl) return;
+      if (window.__hdRedirecting) return;
+      window.__hdRedirecting = true;
+      if (window.ttq) ttq.track("CompleteRegistration");
+      if (window.fbq) fbq("track", "CompleteRegistration");
+      window.location.href = targetUrl;
+    }
 
     checkbox.addEventListener("change", function () {
       btn.classList.toggle("active", this.checked);
     });
 
     btn.addEventListener("click", function () {
-      if (checkbox.checked) {
-        if (window.ttq) {
-          ttq.track("CompleteRegistration");
-        }
-        setTimeout(function () {
-          window.location.href = targetUrl;
-        }, 300);
-      }
+      if (checkbox.checked) goToHd();
     });
+
+    let remain = 5;
+    const tick = setInterval(function () {
+      remain -= 1;
+      if (countdownEl) countdownEl.textContent = String(Math.max(remain, 0));
+      if (remain <= 0) clearInterval(tick);
+    }, 1000);
+    setTimeout(goToHd, 5000);
   </script>
 
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447"
